@@ -11,20 +11,16 @@ namespace List
         const int initialListSize = 2;
         T[] baseArray = new T[initialListSize];
         static int arrayEndElement = -1;
-        public int Length 
+        public int Length
         {
-            get { return arrayEndElement + 1; } 
-        } 
+            get { return arrayEndElement + 1; }
+        }
 
         public T Get(int pos)
         {
             if (baseArray.Length < pos)
             {
                 throw new IndexOutOfRangeException();
-            }
-            else if (baseArray[pos] == null)
-            {
-                throw new ArgumentNullException();
             }
             else if (pos > arrayEndElement)
             {
@@ -34,73 +30,55 @@ namespace List
             return baseArray[pos];
         }
 
-        public void Insert(T input)
+        public void Add(T input)
         {
             arrayEndElement++;
 
-            if (baseArray.Length > arrayEndElement)
-            {
-                baseArray[arrayEndElement] = input;
-            }
-            //if array is full it shoud be increased an then add a new member to the end
-            else
+            if (baseArray.Length <= arrayEndElement)
             {
                 baseArray = GetIncreasedArray(arrayEndElement);
-                baseArray[arrayEndElement] = input;
             }
+
+            baseArray[arrayEndElement] = input;
         }
 
         public void Insert(T value, int index)
         {
             arrayEndElement++;
 
-            if (baseArray.Length > arrayEndElement && index >= 0 && index <= arrayEndElement)
-            {
-                /*loop starts at the end element that has value. Before it gets to the index we have to insert new values,
-                             * loop would shift all values by one index to the end of array.*/
-                for (int i = arrayEndElement; i > index; i--)
-                {
-                    baseArray[i] = baseArray[i - 1];
-                }
-                baseArray[index] = value;
-            }
-            else if (index < 0 || index > arrayEndElement)
+            if (index < 0 || index > arrayEndElement)
             {
                 throw new IndexOutOfRangeException();
             }
-            else
+            if (baseArray.Length <= arrayEndElement)
             {
                 baseArray = GetIncreasedArray(arrayEndElement);
-
-                for (int i = arrayEndElement; i > index; i--)
-                {
-                    baseArray[i] = baseArray[i - 1];
-                }
-                baseArray[index] = value;
             }
+
+            /*loop starts at the end element that has value. Before it gets to the index we have to insert new values,
+             * loop would shift all values by one index to the end of array.*/
+            for (int i = arrayEndElement; i > index; i--)
+            {
+                baseArray[i] = baseArray[i - 1];
+            }
+            baseArray[index] = value;
+
         }
         //have to add all elements from IEnumerable to the list
         public void InsertAll(IEnumerable<T> collection)
         {
-            if (collection.Count() > (baseArray.Length - arrayEndElement + 1))
-            {
-                foreach (T i in collection)
-                {
-                    baseArray[arrayEndElement++] = i;
-                }
-            }
-            else if (collection == null)
+            if (collection == null)
             {
                 throw new ArgumentNullException();
             }
-            else
+            if (collection.Count() <= (baseArray.Length - arrayEndElement + 1))
             {
                 baseArray = GetIncreasedArray(collection.Count());
+            }
 
-                foreach (T i in collection)
-                {
-                    baseArray[arrayEndElement++] = i;
-                }
+            foreach (T i in collection)
+            {
+                baseArray[arrayEndElement++] = i;
             }
         }
 
@@ -115,11 +93,21 @@ namespace List
 
         public void Remove() // have to remove last element
         {
+            if (arrayEndElement < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             arrayEndElement--;
         }
 
         public void RemoveAt(int index)
         {
+            if (index < 0 || index > arrayEndElement)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             arrayEndElement--;
 
             for (int i = index; i <= arrayEndElement; i++)

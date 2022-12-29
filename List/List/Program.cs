@@ -8,22 +8,9 @@ namespace List
         {
             List<int> list = new List<int>();
 
-            list.Insert(1,0);
-            list.Insert(4, 1);
-            list.Insert(5, 2);
-            list.Insert(6);
-            list.Insert(7);
-            list.Insert(8);
-            list.RemoveAt(3);
-            list.Insert(10, 5);
-            Console.WriteLine(list.Length); 
+            
+            list.Remove();
 
-            Console.WriteLine(list.Get(0));
-            Console.WriteLine(list.Get(1));
-            Console.WriteLine(list.Get(2));
-            Console.WriteLine(list.Get(3));
-            Console.WriteLine(list.Get(4));
-            Console.WriteLine(list.Get(5));
         }
     }
 
