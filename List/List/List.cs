@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace List
 {
-    internal class List<T>
+    public class List<T>
     {
         const int initialListSize = 2;
         T[] baseArray = new T[initialListSize];
@@ -14,6 +14,11 @@ namespace List
         public int Length
         {
             get { return arrayEndElement + 1; }
+        }
+        public T this[int i]
+        {
+            get { return baseArray[i]; }
+            set { baseArray[i] = value; }
         }
 
         public T Get(int pos)
