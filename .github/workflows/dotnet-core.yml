@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ master ]
 
+  workflow_dispatch:
+
 jobs:
   build:
 
@@ -18,8 +20,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Install dependencies
-      run: dotnet restore List.sln
+      run: dotnet restore List/List.sln
     - name: Build
-      run: dotnet build List.sln --configuration Release --no-restore
+      run: dotnet build List/List.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test List.sln --no-restore --verbosity normal
+      run: dotnet test List/List.sln --no-restore --verbosity normal
